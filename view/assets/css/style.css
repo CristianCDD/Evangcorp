@@ -1,0 +1,151 @@
+/* Estilo para los inputs al recibir el foco */
+input.form-control:focus {
+    border: 1px solid #173076; /* Mantén el borde de 1px sólido de color #173076 */
+    box-shadow: none; /* Quita cualquier sombra al recibir el foco */
+}
+.btn-group > .btn {
+    margin-right: 5px; /* Espacio entre botones */
+}
+
+
+/* Estilo para la tabla */
+#tabla-responsives {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+
+
+/* Estilo para los encabezados de la tabla */
+#tabla-responsives th {
+    background-color: #173076; /* Color de fondo para encabezados */
+    color: #fff; /* Color de texto para encabezados */
+    font-weight: bold;
+    text-align: left; /* Alineación de texto a la izquierda */
+    padding: 12px;
+}
+
+/* Estilo para las celdas de la tabla */
+#tabla-responsives td {
+    border: 1px solid #ddd; /* Borde delgado */
+    padding: 10px;
+}
+
+/* Estilo para las filas al pasar el cursor */
+#tabla-responsives tbody tr:hover {
+    background-color: #f2f2f2; /* Resaltar fila al pasar el cursor */
+}
+
+/* Estilo para las imágenes */
+#tabla-responsives img {
+    max-width: 50px; /* Ancho máximo de la imagen */
+    height: auto; /* Mantener la proporción de aspecto */
+    border-radius: 50%; /* Bordes redondeados para las imágenes */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+/* Estilo para los botones de acción */
+#tabla-responsives .btn {
+    padding: 8px 12px; /* Espaciado interno para los botones */
+    font-size: 12px; /* Tamaño de fuente para los botones */
+    border-radius: 20px; /* Bordes redondeados para los botones */
+    cursor: pointer; /* Cambiar cursor al pasar por encima */
+    transition: background-color 0.3s ease; /* Transición suave al cambiar color de fondo */
+}
+
+/* Estilo para el botón de editar */
+#tabla-responsives .btn-editar {
+    background-color: #28a745; /* Color de fondo verde */
+    border-color: #28a745; /* Color del borde */
+    color: #fff; /* Color de texto */
+}
+
+/* Estilo para el botón de eliminar */
+#tabla-responsives .btn-eliminar {
+    background-color: #dc3545; /* Color de fondo rojo */
+    border-color: #dc3545; /* Color del borde */
+    color: #fff; /* Color de texto */
+}
+
+/* Cambiar color de fondo al pasar el cursor sobre los botones */
+#tabla-responsives .btn:hover {
+    background-color: #0056b3; /* Cambiar a un tono más oscuro al pasar el cursor */
+}
+
+
+/* Estilos personalizados para la tabla responsive */
+@media screen and (max-width: 767px) {
+    /* Ocultar el número de fila en dispositivos móviles */
+    #tabla-responsives td:first-child {
+        display: none;
+    }
+    #tabla-responsives th:first-child {
+        display: none;
+    }
+    
+    /* Ajustar el tamaño de fuente en dispositivos móviles */
+    #tabla-responsives th,
+    #tabla-responsives td {
+        font-size: 12px;
+    }
+}
+
+/* Estilo para la clase rayita-verde */
+.rayita-verde{
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: green; /* Color de la rayita */
+}
+
+
+/* Estilos personalizados para la barra de navegación */
+.navbar-bg-color {
+    background-color: #ffffff; /* Color de fondo */
+}
+
+.navbar-container {
+    padding: 0 15px; /* Añade un poco de espacio en los bordes */
+}
+
+.navbar-header .navbar-brand {
+    padding: 0; /* Elimina el espacio entre el logo y los bordes */
+}
+
+.navbar-brand img {
+    max-height: 40px; /* Limita la altura del logo */
+}
+
+.nav-link {
+    color: #333333; /* Color del texto de los enlaces */
+}
+
+/* Estilo para el nombre de usuario */
+.user-name {
+    font-size: 14px; /* Tamaño del texto */
+    margin-right: 10px; /* Espacio a la derecha del nombre */
+}
+
+/* Estilo para el avatar del usuario */
+.avatar-online {
+    border: 2px solid #4caf50; /* Borde verde para el estado online */
+}
+
+/* Estilos para el menú desplegable del usuario */
+.dropdown-menu {
+    min-width: 150px; /* Ancho mínimo */
+}
+
+.dropdown-item {
+    padding: 10px 20px; /* Espacio alrededor de los elementos */
+}
+
+.dropdown-divider {
+    margin: 5px 0; /* Espacio entre los elementos */
+    border-top: 1px solid #dddddd; /* Línea divisoria */
+}
+
+/* css */
+
