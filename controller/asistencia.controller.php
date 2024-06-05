@@ -6,13 +6,13 @@ class ControllerAsistencia
     static public function ctrMostrarAsistenciaConUsuarios($item, $valor)
     {
         $tabla = "asistencia";
-        $respuesta = ModelUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
+        $respuesta = ModelAsistencia::mdlMostrarUsuarios($tabla, $item, $valor);
         return $respuesta;
     }
 
     static public function ctrMostrarInner()
     {
-        return ModelUsuarios::mdlMostrarInner();
+        return ModelAsistencia::mdlMostrarInner();
     }
 
     public static function ctrMarcarEntrada($id_usuario)
@@ -24,34 +24,27 @@ class ControllerAsistencia
         $datos = array(
             "id_usuario" => $id_usuario,
             "fecha" => $fecha,
-            "hora_entrada" => $hora,
-            "hora_salida" => $hora
+            "hora_entrada" => $hora
         );
 
         $respuesta = ModelAsistencia::mdlMarcarEntrada("asistencia", $datos);
         return $respuesta;
     }
 
-    public static function ctrUpdateCoordinates($id, $latitude, $longitude, $ubicacion)
+    public static function ctrUpdateCoordinates($id, $ubicacion)
     {
         $tabla = "asistencia";
         $datos = array(
             "id" => $id,
-            "latitude" => $latitude,
-            "longitude" => $longitude,
             "ubicacion" => $ubicacion
         );
 
-        $respuesta = ModelAsistencia::mdlUpdateCoordinates($tabla, $datos);
-        return $respuesta;
+        ModelAsistencia::mdlUpdateCoordinates($tabla, $datos);
     }
 
     public static function ctrMarcarSalida($id)
     {
-        date_default_timezone_set('America/Lima');
-        $hora_salida = date('H:i:s');
-
-        $respuesta = ModelAsistencia::mdlMarcarSalida($id, $hora_salida);
-        return $respuesta;
+        return "Funcionalidad deshabilitada.";
     }
 }
+?>

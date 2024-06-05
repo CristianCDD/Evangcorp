@@ -50,10 +50,6 @@
                 <h1 class="custom-header">Enviar ubicación</h1>
                 <button id="ubicacionButton" class="btn btn-primary mb-2 custom-button" onclick="getLocation()" disabled>Enviar</button>
             </div>
-            <div class="col-md-6">
-                <h1 class="custom-header">Marcar Fecha de Salida</h1>
-                <button id="salidaButton" class="btn btn-danger mb-2 custom-button" onclick="marcarSalida()" disabled>Enviar</button>
-            </div>
         </div>
         <input type="hidden" id="last_inserted_id" value="">
     </div>
@@ -71,10 +67,6 @@
 
         if (localStorage.getItem("ubicacionButtonDisabled") === "false") {
             document.getElementById("ubicacionButton").disabled = false;
-        }
-
-        if (localStorage.getItem("salidaButtonDisabled") === "false") {
-            document.getElementById("salidaButton").disabled = false;
         }
 
         document.getElementById("last_inserted_id").value = localStorage.getItem("lastInsertedId") || "";
@@ -100,7 +92,7 @@
             localStorage.setItem("entradaButtonDisabled", "true");
             localStorage.setItem("ubicacionButtonDisabled", "true");
         } else {
-            document.getElementById("coordinates").innerHTML = "Geolocation is not supported by this browser.";
+            document.getElementById("server-response").innerHTML = "Geolocation is not supported by this browser.";
         }
     }
 
@@ -115,17 +107,7 @@
             xhr.open("POST", "ajax/asistencia.ajax.php", true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr.send("action=updateCoordinates&id=" + lastInsertedId + "&latitude=" + currentLatitude + "&longitude=" + currentLongitude);
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById("server-response").innerHTML = xhr.responseText;
-                }
-            };
         }
-
-        // Habilita el botón de salida solo después de enviar la ubicación
-        document.getElementById("salidaButton").disabled = false;
-        localStorage.setItem("salidaButtonDisabled", "false");
     }
 
     function marcarEntrada() {
@@ -141,36 +123,11 @@
                 localStorage.setItem("lastInsertedId", xhr.responseText);
                 document.getElementById("ubicacionButton").disabled = false; // Habilita el botón de ubicación
 
-                document.getElementById("entradaButton").disabled = true; //----------------------------
+                document.getElementById("entradaButton").disabled = true;
                 localStorage.setItem("ubicacionButtonDisabled", "false");
                 localStorage.setItem("entradaButtonDisabled", "true");
-
             }
         };
-    }
-
-    function marcarSalida() {
-        var lastInsertedId = document.getElementById("last_inserted_id").value;
-
-        if (lastInsertedId) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "ajax/asistencia.ajax.php", true);
-            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            xhr.send("action=marcarSalida&id=" + lastInsertedId);
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    console.log("Respuesta del servidor: " + xhr.responseText); // Imprime la respuesta del servidor en la consola
-                    document.getElementById("salidaButton").disabled = true; // Deshabilita el botón de salida
-
-
-
-                    localStorage.setItem("salidaButtonDisabled", "true");
-                }
-            };
-        } else {
-            alert("No se ha marcado una entrada aún.");
-        }
     }
 </script>
 

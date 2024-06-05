@@ -21,25 +21,19 @@ class AsistenciaAjax
     }
 
     public function ajaxUpdateCoordinates()
-{
-    $id = $this->id;
-    $latitude = $this->latitude;
-    $longitude = $this->longitude;
-    $ubicacion = "https://www.google.com/maps/search/?api=1&query=" . $latitude . "," . $longitude;
-    $respuesta = ControllerAsistencia::ctrUpdateCoordinates($id, $latitude, $longitude, $ubicacion);
-    echo $respuesta;
-}
-
-    
+    {
+        if (isset($this->id) && isset($this->latitude) && isset($this->longitude)) {
+            $ubicacion = "https://www.google.com/maps/search/?api=1&query=" . $this->latitude . "," . $this->longitude;
+            $respuesta = ControllerAsistencia::ctrUpdateCoordinates($this->id, $ubicacion);
+            echo $respuesta;
+        } else {
+            echo "Datos incompletos.";
+        }
+    }
 
     public function ajaxMarcarSalida()
     {
-        if (isset($this->id)) {
-            $respuesta = ControllerAsistencia::ctrMarcarSalida($this->id);
-            echo $respuesta;
-        } else {
-            echo "ID de usuario no especificado.";
-        }
+        echo "Funcionalidad deshabilitada.";
     }
 }
 
@@ -64,12 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 break;
 
             case 'marcarSalida':
-                if (isset($_POST["id"])) {
-                    $asistenciaAjax->id = $_POST["id"];
-                    $asistenciaAjax->ajaxMarcarSalida();
-                } else {
-                    echo "ID no especificado.";
-                }
+                echo "Funcionalidad deshabilitada.";
                 break;
 
             default:
