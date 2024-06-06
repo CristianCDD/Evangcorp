@@ -32,7 +32,7 @@
 
 <div class="content-header row mt-4">
     <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
-        <h3 class="content-header-title mb-0 d-inline-block">Bienvenido "<?php echo $_SESSION["nombre"] . $_SESSION["apellidos"] ?>"</h3>
+        <h3 class="content-header-title mb-0 d-inline-block">Bienvenido "<?php echo $_SESSION["nombre"] . " " . $_SESSION["apellidos"] ?>"</h3>
         <p class="mb-4">Rellenar correctamente la plantilla.</p>
     </div>
 </div>
@@ -60,16 +60,8 @@
     let currentLongitude = null;
 
     document.addEventListener("DOMContentLoaded", function() {
-        if (localStorage.getItem("entradaButtonDisabled") === "true") {
-            document.getElementById("entradaButton").disabled = true;
-        }
+        resetButtonStates();
 
-        if (localStorage.getItem("ubicacionButtonDisabled") === "false") {
-            document.getElementById("ubicacionButton").disabled = false;
-        }
-
-        document.getElementById("last_inserted_id").value = localStorage.getItem("lastInsertedId") || "";
-        
         const now = new Date();
         const midnight = new Date();
         midnight.setHours(24, 0, 0, 0);
@@ -81,16 +73,16 @@
         }, timeUntilMidnight);
 
         setInterval(() => {
-            document.getElementById("entradaButton").disabled = false;
-            document.getElementById("ubicacionButton").disabled = false;
-            localStorage.setItem("entradaButtonDisabled", "false");
-            localStorage.setItem("ubicacionButtonDisabled", "false");
-        }, 10000); // Habilitar los botones cada 10 segundos para pruebas
-
-        if (localStorage.getItem("lastInsertedId")) {
-            setInterval(getLocation, 10000); // Cada 10 segundos para pruebas
-        }
+            resetButtonStates();
+        }, 10000); // Resetear los botones cada 10 segundos para pruebas
     });
+
+    function resetButtonStates() {
+        document.getElementById("entradaButton").disabled = false;
+        document.getElementById("ubicacionButton").disabled = true; // Siempre deshabilitado al principio
+        localStorage.setItem("entradaButtonDisabled", "false");
+        localStorage.setItem("ubicacionButtonDisabled", "true");
+    }
 
     function getLocation() {
         if (navigator.geolocation) {
