@@ -13,8 +13,8 @@ class AsistenciaAjax
     {
         if (isset($_SESSION["id"])) {
             $id_usuario = $_SESSION["id"];
-            $respuesta = ControllerAsistencia::ctrMarcarEntrada($id_usuario);
-            echo $respuesta;
+            $id_asistencia = ControllerAsistencia::ctrMarcarEntrada($id_usuario);
+            echo $id_asistencia;
         } else {
             echo "Usuario no autenticado.";
         }
@@ -24,8 +24,8 @@ class AsistenciaAjax
     {
         if (isset($this->id) && isset($this->latitude) && isset($this->longitude)) {
             $ubicacion = "https://www.google.com/maps/search/?api=1&query=" . $this->latitude . "," . $this->longitude;
-            $respuesta = ControllerAsistencia::ctrUpdateCoordinates($this->id, $ubicacion);
-            echo $respuesta;
+            ControllerAsistencia::ctrRegistrarDetalleAsistencia($this->id, $ubicacion);
+            echo "Coordenadas actualizadas.";
         } else {
             echo "Datos incompletos.";
         }

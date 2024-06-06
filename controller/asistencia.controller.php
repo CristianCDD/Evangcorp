@@ -19,16 +19,34 @@ class ControllerAsistencia
     {
         date_default_timezone_set('America/Lima');
         $fecha = date('Y-m-d');
+
+        // Verificar si ya existe una entrada para el usuario y la fecha
+        $id_asistencia = ModelAsistencia::mdlObtenerIdAsistencia("asistencia", $id_usuario, $fecha);
+
+        if (!$id_asistencia) {
+            // Si no existe, crear una nueva entrada
+            $datos = array(
+                "id_usuario" => $id_usuario,
+                "fecha" => $fecha
+            );
+            $id_asistencia = ModelAsistencia::mdlMarcarEntrada("asistencia", $datos);
+        }
+
+        return $id_asistencia;
+    }
+
+    public static function ctrRegistrarDetalleAsistencia($id_asistencia, $ubicacion)
+    {
+        date_default_timezone_set('America/Lima');
         $hora = date('H:i:s');
 
         $datos = array(
-            "id_usuario" => $id_usuario,
-            "fecha" => $fecha,
-            "hora_entrada" => $hora
+            "id_asistencia" => $id_asistencia,
+            "hora" => $hora,
+            "ubicacion" => $ubicacion
         );
 
-        $respuesta = ModelAsistencia::mdlMarcarEntrada("asistencia", $datos);
-        return $respuesta;
+        ModelAsistencia::mdlRegistrarDetalleAsistencia("detalle_asistencia", $datos);
     }
 
     public static function ctrUpdateCoordinates($id, $ubicacion)

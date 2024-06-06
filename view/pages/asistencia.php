@@ -60,7 +60,6 @@
     let currentLongitude = null;
 
     document.addEventListener("DOMContentLoaded", function() {
-        // Load button states from localStorage
         if (localStorage.getItem("entradaButtonDisabled") === "true") {
             document.getElementById("entradaButton").disabled = true;
         }
@@ -71,7 +70,6 @@
 
         document.getElementById("last_inserted_id").value = localStorage.getItem("lastInsertedId") || "";
         
-        // Calculate the time until midnight and set a timeout to clear localStorage
         const now = new Date();
         const midnight = new Date();
         midnight.setHours(24, 0, 0, 0);
@@ -81,18 +79,28 @@
             localStorage.clear();
             location.reload();
         }, timeUntilMidnight);
+
+        setInterval(() => {
+            document.getElementById("entradaButton").disabled = false;
+            document.getElementById("ubicacionButton").disabled = false;
+            localStorage.setItem("entradaButtonDisabled", "false");
+            localStorage.setItem("ubicacionButtonDisabled", "false");
+        }, 10000); // Habilitar los botones cada 10 segundos para pruebas
+
+        if (localStorage.getItem("lastInsertedId")) {
+            setInterval(getLocation, 10000); // Cada 10 segundos para pruebas
+        }
     });
 
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
-            // Deshabilita los botones de "Marcar Fecha de Entrada" y "Enviar ubicación"
             document.getElementById("entradaButton").disabled = true;
             document.getElementById("ubicacionButton").disabled = true;
             localStorage.setItem("entradaButtonDisabled", "true");
             localStorage.setItem("ubicacionButtonDisabled", "true");
         } else {
-            document.getElementById("server-response").innerHTML = "Geolocation is not supported by this browser.";
+            document.getElementById("server-response").innerHTML = "Geolocalización no soportada por este navegador.";
         }
     }
 
@@ -118,10 +126,10 @@
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log("Respuesta del servidor: " + xhr.responseText); // Imprime la respuesta del servidor en la consola
-                document.getElementById("last_inserted_id").value = xhr.responseText; // Almacena el ID insertado
+                console.log("Respuesta del servidor: " + xhr.responseText);
+                document.getElementById("last_inserted_id").value = xhr.responseText;
                 localStorage.setItem("lastInsertedId", xhr.responseText);
-                document.getElementById("ubicacionButton").disabled = false; // Habilita el botón de ubicación
+                document.getElementById("ubicacionButton").disabled = false;
 
                 document.getElementById("entradaButton").disabled = true;
                 localStorage.setItem("ubicacionButtonDisabled", "false");
