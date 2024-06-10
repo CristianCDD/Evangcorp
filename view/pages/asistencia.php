@@ -97,10 +97,11 @@
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Fecha</th>
-                                                <th>Hora de Entrada</th>
-                                                <th>Hora de Salida</th>
-                                                <th>Ubicación</th>
+                                                <th>#</th>
+                                            <th>Usuario</th>
+                                            <th>Fecha</th>
+                                            <th>Hora</th>
+                                            <th>Ubicación</th>
                                             </tr>
                                         </thead>
                                         <tbody id="asistenciaBody">
@@ -183,7 +184,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>#</th>
                                         <th>Usuario</th>
                                         <th>Fecha</th>
                                         <th>Hora</th>
@@ -194,7 +195,6 @@
                                     ${historial.map((item, index) => `
                                         <tr>
                                             <td>${index + 1}</td>
-                                            <td>${item.id}</td>
                                             <td>${item.nombre}</td>
                                             <td>${item.fecha}</td>
                                             <td>${item.hora}</td>
