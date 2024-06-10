@@ -17,6 +17,10 @@
                     <li><a class="menu-item" href="asistencia">Marcar Asistencia</a>
                     </li>
                     <br>
+                    <br>
+                    <li><a class="menu-item" href="nuevaAsistencia">Marcar Asistencia commite</a>
+                    </li>
+                    <br>
                     <?php if ($_SESSION["rol"] == "Administrador") : ?>
             
                         <li><a class="menu-item" href="control-asistencia">Ver asistencias</a>

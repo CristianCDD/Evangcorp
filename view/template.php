@@ -128,6 +128,7 @@ if (isset($_SESSION["id"])) {
                     $_GET["route"] == "tasas" ||
                     $_GET["route"] == "asistencia" ||
                     $_GET["route"] == "control-asistencia" ||
+                    $_GET["route"] == "nuevaAsistencia" ||
                     $_GET["route"] == "seguimiento-prospecciones"
                 ) {
                     include 'pages/' . $_GET["route"] . '.php';

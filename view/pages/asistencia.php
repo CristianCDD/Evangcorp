@@ -18,18 +18,15 @@
             margin-bottom: 1rem;
             text-transform: none;
             font-family: 'Poppins';
-            /* Asegura que el texto no se transforme a mayúsculas */
         }
 
         .custom-button {
             width: 200px;
-            /* Ancho fijo en pantallas grandes */
         }
 
         @media (max-width: 768px) {
             .custom-button {
                 width: 100%;
-                /* Ancho completo en pantallas pequeñas */
             }
         }
 
@@ -52,7 +49,7 @@
     <div class="content-header row mt-4">
         <div class="content-header-left col-md-8 col-12 mb-2 breadcrumb-new">
             <h3 class="content-header-title mb-0 d-inline-block">Bienvenido "<?php echo $_SESSION["nombre"] . " " . $_SESSION["apellidos"] ?>"</h3>
-            <p class="mb-4">Registra tus labores de manera facil y sencilla.</p>
+            <p class="mb-4">Registra tus labores de manera fácil y sencilla.</p>
         </div>
     </div>
 
@@ -102,7 +99,7 @@
 
                             <div class="col-12">
                                 <h1 class="custom-header">Tiempos Registrados</h1>
-                                <div class="table-responsive">
+                                <div id="historialAsistenciaContainer" class="table-responsive">
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
@@ -112,21 +109,8 @@
                                                 <th>Ubicación</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-
-                                            <tr>
-                                                <td>2024-06-09</td>
-                                                <td>08:00 AM</td>
-                                                <td>05:00 PM</td>
-                                                <td>Lima, Perú</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2024-06-08</td>
-                                                <td>08:00 AM</td>
-                                                <td>05:00 PM</td>
-                                                <td>Lima, Perú</td>
-                                            </tr>
-
+                                        <tbody id="asistenciaBody">
+                                            <!-- Dynamic rows will be inserted here -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -138,15 +122,11 @@
         </div>
     </div>
 
-    </div>
-
-
-
     <script>
         let currentLatitude = null;
         let currentLongitude = null;
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             resetButtonStates();
 
             const now = new Date();
@@ -154,19 +134,21 @@
             midnight.setHours(24, 0, 0, 0);
             const timeUntilMidnight = midnight - now;
 
-            setTimeout(function() {
+            setTimeout(function () {
                 localStorage.clear();
                 location.reload();
             }, timeUntilMidnight);
 
             setInterval(() => {
                 resetButtonStates();
-            }, 10000); // Resetear los botones cada 10 segundos para pruebas
+            }, 10000);
+
+            mostrarHistorialAsistencia(<?php echo $_SESSION["id"]; ?>);
         });
 
         function resetButtonStates() {
             document.getElementById("entradaButton").disabled = false;
-            document.getElementById("ubicacionButton").disabled = true; // Siempre deshabilitado al principio
+            document.getElementById("ubicacionButton").disabled = true;
             localStorage.setItem("entradaButtonDisabled", "false");
             localStorage.setItem("ubicacionButtonDisabled", "true");
         }
@@ -194,6 +176,13 @@
                 xhr.open("POST", "ajax/asistencia.ajax.php", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhr.send("action=updateCoordinates&id=" + lastInsertedId + "&latitude=" + currentLatitude + "&longitude=" + currentLongitude);
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        console.log("Coordenadas actualizadas: " + xhr.responseText);
+                        mostrarHistorialAsistencia(<?php echo $_SESSION["id"]; ?>);  // Refresh the attendance list after updating coordinates
+                    }
+                };
             }
         }
 
@@ -203,7 +192,7 @@
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhr.send("action=marcarEntrada");
 
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     console.log("Respuesta del servidor: " + xhr.responseText);
                     document.getElementById("last_inserted_id").value = xhr.responseText;
@@ -213,11 +202,38 @@
                     document.getElementById("entradaButton").disabled = true;
                     localStorage.setItem("ubicacionButtonDisabled", "false");
                     localStorage.setItem("entradaButtonDisabled", "true");
+
+                    mostrarHistorialAsistencia(<?php echo $_SESSION["id"]; ?>);  // Refresh the attendance list after marking entry
+                }
+            };
+        }
+
+        function mostrarHistorialAsistencia(id_usuario) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "ajax/asistencia.ajax.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.send("action=obtenerHistorialAsistencia&id_usuario=" + id_usuario);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var historial = JSON.parse(xhr.responseText);
+                    if (historial.length > 0) {
+                        var asistenciaBody = document.getElementById("asistenciaBody");
+                        asistenciaBody.innerHTML = historial.map(item => `
+                            <tr>
+                                <td>${item.fecha}</td>
+                                <td>${item.hora_entrada}</td>
+                                <td>${item.hora_salida}</td>
+                                <td>${item.ubicacion}</td>
+                            </tr>
+                        `).join('');
+                    } else {
+                        console.log("No se encontraron datos de asistencia.");
+                    }
                 }
             };
         }
     </script>
 
 </body>
-
 </html>
