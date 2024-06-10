@@ -4,13 +4,13 @@ global $asistencia;
 
 <div class="content-header row mt-4">
     <div class="content-header-left col-md-8 col-12 mb-5 breadcrumb-new">
-        <h3 class="content-header-title mb-0 d-inline-block">VALIDACIONES Y CARTAS</h3>
+        <h3 class="content-header-title mb-0 d-inline-block">VALIDACIONES DE JORNADAS LABORADAS</h3>
         <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="inicio">ESCRITORIO</a>
                     </li>
-                    <li class="breadcrumb-item active">carta ofertas
+                    <li class="breadcrumb-item active">CONTROL ASISTENCIA
                     </li>
                 </ol>
             </div>
@@ -18,9 +18,6 @@ global $asistencia;
     </div>
 </div>
 
-<button type="button" class="btn btn-primary p-2 mb-4 btnAgregarUsuarios" onclick="window.location.href='registrar-validaciones'" data-bs-toggle="modal" data-bs-target="#modalAgregarUsuario">
-    Ingresar carta y vaucher
-</button>
 
 <div class="card">
     <div class="card-content p-4">
