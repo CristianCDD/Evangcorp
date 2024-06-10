@@ -9,24 +9,26 @@
                 </li>
             <?php endif ?>
 
+            <?php if ($_SESSION["rol"] == "Administrador") : ?>
+                <li class=" nav-item"><a href="asistencia"><i class="fa-solid fa-clipboard-user"></i><span class="menu-title" data-i18n="">Asistencia</span></a>
 
-            <li class=" nav-item"><a href="asistencia"><i class="fa-solid fa-clipboard-user"></i><span class="menu-title" data-i18n="">Asistencia</span></a>
-
-                <ul class="menu-content">
-                    <br>
-                    <li><a class="menu-item" href="asistencia">Marcar Asistencia</a>
-                    </li>
-                    <br>
-                    <?php if ($_SESSION["rol"] == "Administrador") : ?>
-            
-                        <li><a class="menu-item" href="control-asistencia">Ver asistencias</a>
+                    <ul class="menu-content">
+                        <br>
+                        <li><a class="menu-item" href="asistencia">Marcar Asistencia</a>
                         </li>
-                    <?php endif ?>
-                    <br>
-                </ul>
+                        <br>
+                        <?php if ($_SESSION["rol"] == "Administrador") : ?>
+
+                            <li><a class="menu-item" href="control-asistencia">Ver asistencias</a>
+                            </li>
+                        <?php endif ?>
+                        <br>
+                    </ul>
 
 
-            </li>
+                </li>
+
+            <?php endif ?>
 
 
             <!-- COMERCIOS -->
@@ -73,10 +75,10 @@
                     <br>
 
 
-                    <?php if ($_SESSION["rol"] == "Administrador") : ?>
-                        <li><a class="menu-item" href="ingresar-venta">Ingresar plantilla</a>
-                        </li><br>
-                    <?php endif ?>
+
+                    <li><a class="menu-item" href="ingresar-venta">Ingresar plantilla</a>
+                    </li><br>
+
                     <?php if ($_SESSION["rol"] == "Administrador") : ?>
                         <li><a class="menu-item" href="carta-ofertas">Carta ofertas</a>
                         </li><br>
@@ -96,7 +98,7 @@
                     <?php if (
                         $_SESSION["rol"] == "Administrador" || $_SESSION["rol"] == "Supervisor-lima"  ||
                         $_SESSION["rol"] == "Supervisor-chiclayo" ||
-                        $_SESSION["rol"] == "Supervisor-iquitos" ||  $_SESSION["rol"] == "Vendedor"
+                        $_SESSION["rol"] == "Supervisor-iquitos" 
                     ) : ?>
                         <li><a class="menu-item" href="registrar-validaciones">Registrar validaciones</a>
                         </li>

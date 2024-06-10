@@ -6,7 +6,7 @@
 </div>
 
 <!--=====================================================
-=                     RELACION - LIMA                  =
+=                     RELACION - LIMA 1                 =
 ========================================================-->
 
 <?php if ($_SESSION["rol"] == "Administrador" || $_SESSION["nombre"] == "Jorge") : ?>
@@ -100,18 +100,37 @@
 <?php endif ?>
 
 <!--=====================================================
-=           RELACION - ARMANDO DANTE                 =
+=           RELACION - ROCIO JACKLYN                =
 ========================================================-->
 
-<?php if ($_SESSION["nombre"] == "ARMANDO DANTE") : ?>
+<?php if ($_SESSION["nombre"] == "ROCIO JACKLYN") : ?>
 
     <div class="bg-dark py-1"><h6 class="content-header-title mb-0 d-inline-block ml-2 text-white">Ventas Lima</h6></div>
 
     <div class="embed-responsive embed-responsive-16by9">
         <div class="card-header py-3">
-            <h5 class="m-0 font-weight-bold text-secondary">TASAS EVALUADAS ARMANDO DANTE</h5>
+            <h5 class="m-0 font-weight-bold text-secondary">TASAS EVALUADAS ROCIO JACKLYN</h5>
         </div>
-        <iframe class="embed-responsive-item" src="https://lookerstudio.google.com/embed/reporting/478ad250-c90c-4f19-970f-2af59b5960f7/page/hxxvD" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+        <iframe class="embed-responsive-item" src="https://lookerstudio.google.com/embed/reporting/3228e360-1ff9-42c8-884b-e171a66a6ea6/page/hxxvD" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>
+
+
+<?php endif ?>
+
+
+<!--=====================================================
+=           RELACION - JENNIFER ROBLES BARRANTES       =
+========================================================-->
+
+<?php if ($_SESSION["nombre"] == "ROCIO JACKLYN") : ?>
+
+    <div class="bg-dark py-1"><h6 class="content-header-title mb-0 d-inline-block ml-2 text-white">Ventas Lima</h6></div>
+
+    <div class="embed-responsive embed-responsive-16by9">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold text-secondary">TASAS EVALUADAS JENNIFER ROBLES BARRANTES</h5>
+        </div>
+        <iframe class="embed-responsive-item" src="https://lookerstudio.google.com/embed/reporting/7c7bedd4-97c3-4257-9f39-a5da0995fe58/page/hxxvD" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
     </div>
 
 
@@ -135,4 +154,114 @@
 
 
 <?php endif ?>
+
+
+<!--=====================================================
+=                     RELACION - LIMA 2                  =
+========================================================-->
+
+<?php if ($_SESSION["rol"] == "Administrador" || $_SESSION["nombre"] == "JUAN PAULO") : ?>
+
+    <div class="bg-dark py-1"><h6 class="content-header-title mb-0 d-inline-block ml-2 text-white">Tasas de comercios en Lima 2</h6></div>
+    
+    <div class="embed-responsive embed-responsive-16by9">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold text-secondary">Tasas de comercios en Lima</h5>
+        </div>
+        
+        <iframe src="https://lookerstudio.google.com/embed/reporting/39b265f0-c966-472a-a5ec-a776df3f5adf/page/hxxvD" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>
+
+<?php endif ?>
+
+<!--=====================================================
+=           RELACION - KIARA DAYANA COLLADO MUﾃ前Z     =
+========================================================-->
+
+<?php if ($_SESSION["nombre"] == "KIARA DAYANA") : ?>
+
+    <div class="bg-dark py-1"><h6 class="content-header-title mb-0 d-inline-block ml-2 text-white">Ventas Lima 2</h6></div>
+
+    <div class="embed-responsive embed-responsive-16by9">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold text-secondary">TASAS EVALUADAS  KIARA DAYANA COLLADO MUﾃ前Z</h5>
+        </div>
+        <iframe class="embed-responsive-item" src="https://lookerstudio.google.com/embed/reporting/6248b2ee-a08c-4163-9594-ef1dadc41148/page/hxxvD" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>
+
+
+<?php endif ?>
+
+<!--=====================================================
+=           RELACION - JAIME LUIS CUYA URTEAGA          =
+========================================================-->
+
+<?php if ($_SESSION["nombre"] == "JAIME LUIS") : ?>
+
+    <div class="bg-dark py-1"><h6 class="content-header-title mb-0 d-inline-block ml-2 text-white">Ventas Lima 2</h6></div>
+
+    <div class="embed-responsive embed-responsive-16by9">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold text-secondary">TASAS EVALUADAS  JAIME LUIS</h5>
+        </div>
+        <iframe class="embed-responsive-item" src="https://lookerstudio.google.com/embed/reporting/3947fe34-582b-41ce-a842-b92e3c4c72f1/page/hxxvD" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>
+
+
+<?php endif ?>
+
+<!--=====================================================
+=           RELACION - DARLY MIOZOTIS DEL JESUS         =
+========================================================-->
+
+<?php if ($_SESSION["nombre"] == "DARLY MIOZOTIS DEL JESUS") : ?>
+
+    <div class="bg-dark py-1"><h6 class="content-header-title mb-0 d-inline-block ml-2 text-white">Ventas Lima 2</h6></div>
+
+    <div class="embed-responsive embed-responsive-16by9">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold text-secondary">TASAS EVALUADAS  DARLY MIOZOTIS DEL JESUS</h5>
+        </div>
+        <iframe class="embed-responsive-item" src="https://lookerstudio.google.com/embed/reporting/5ad90133-dd09-4397-9be0-d49cab29d3a8/page/hxxvD" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>
+
+
+<?php endif ?>
+
+<!--=====================================================
+=    RELACION - DIANA MARISOL TAMBRACC CURIBANCO        =
+========================================================-->
+
+<?php if ($_SESSION["nombre"] == "DIANA MARISOL") : ?>
+
+    <div class="bg-dark py-1"><h6 class="content-header-title mb-0 d-inline-block ml-2 text-white">Ventas Lima 2</h6></div>
+
+    <div class="embed-responsive embed-responsive-16by9">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold text-secondary">TASAS EVALUADAS  DIANA MARISOL</h5>
+        </div>
+        <iframe class="embed-responsive-item" src="https://lookerstudio.google.com/embed/reporting/25efbbb7-744b-4a36-bf88-f4884deac649/page/hxxvD" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>
+
+
+<?php endif ?>
+
+<!--=====================================================
+=    RELACION - STEPHANY ANDREA IBARCENA SANDOVAL      =
+========================================================-->
+
+<?php if ($_SESSION["nombre"] == "STEPHANY ANDREA") : ?>
+
+    <div class="bg-dark py-1"><h6 class="content-header-title mb-0 d-inline-block ml-2 text-white">Ventas Lima 2</h6></div>
+
+    <div class="embed-responsive embed-responsive-16by9">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold text-secondary">TASAS EVALUADAS  STEPHANY ANDREA IBARCENA SANDOVAL</h5>
+        </div>
+        <iframe class="embed-responsive-item" src="https://lookerstudio.google.com/embed/reporting/f8d25b65-974e-4718-9bf1-a0e6ee959ce4/page/hxxvD" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>
+
+
+<?php endif ?>
+
 

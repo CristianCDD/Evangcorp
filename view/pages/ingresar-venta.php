@@ -94,16 +94,17 @@
                     <h6 class="m-0 font-weight-bold">Datos Comerciales</h6>
                 </div>
                 <div class="card-body">
-                    <!-- RUC -->
-                    <div class="form-group">
-                        <label for="rucConsulta">RUC:</label>
-                        <small>Ingresa solo el número de RUC</small><span style="color: red;"> *</span>
-                        <div class="input-group mt-2">
-                            <input type="text" id="rucConsulta" name="registroRuc" class="form-control" style="outline: none;" placeholder="Buscar comercio">
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-primary registroRuc">
-                                    <i class="fas fa-search"></i> Buscar
-                                </button>
+                    <div class="row">
+                        <!-- Razón Social -->
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="razonSocial">RUC:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
+                                    </div>
+                                    <input type="text" name="ruc" id="ruc" class="form-control" required>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -242,7 +243,11 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-money-check"></i></span>
                                     </div>
-                                    <input type="text" name="cuenta" id="cuenta" class="form-control" required>
+                                    <select name="cuenta" id="cuenta" class="form-control" required>
+                                        <option value="">Seleccione una opción</option>
+                                        <option value="corriente">Corriente</option>
+                                        <option value="ahorro">Ahorro</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -291,10 +296,17 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-cogs"></i></span>
                                     </div>
-                                    <input type="text" name="equipo" id="equipo" class="form-control" required>
+                                    <select name="equipo" id="equipo" class="form-control" required>
+                                        <option value="" disabled>Seleccione una opción</option>
+                                        <option value="culqi-full">Culqi Full</option>
+                                        <option value="culqi-link">Culqi Link</option>
+                                        <option value="culqi-online">Culqi Online</option>
+                                        <option value="super-pos">Super Pos</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
+
                         <!-- Tasa Ofrecida -->
                         <div class="col-md-6">
                             <div class="form-group">
@@ -329,7 +341,13 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
                                     </div>
-                                    <input type="text" name="tipoPago" id="tipoPago" class="form-control" required>
+                                    <select name="tipoPago" id="tipoPago" class="form-control" required>
+                                        <option value="" selected disabled>Seleccione un tipo de pago</option>
+                                        <option value="yape">Yape</option>
+                                        <option value="plin">Plin</option>
+                                        <option value="transferencia-bancaria">Transferencia bancaria</option>
+                                        <option value="pos-pagador">Pos pagador</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -355,7 +373,19 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
                                     </div>
-                                    <input type="text" name="asesor" id="asesor" class="form-control" required>
+                                    <select name="asesor" id="asesor" class="form-control" required onchange="disableDefaultOption()">
+                                        <option value="" selected>Seleccione un asesor</option>
+                                        <?php
+                                        $item = null;
+                                        $valor = null;
+                                        $usuarios = ControllerUser::ctrMostrarUsuarios($item, $valor);
+                                        foreach ($usuarios as $usuario) {
+                                            if ($usuario["rol"] == "Vendedor") {
+                                                echo '<option value="' . $usuario["id"] . '">' . $usuario["nombre"] . ' ' . $usuario["apellidos"] . '</option>';
+                                            }
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -380,6 +410,21 @@
                         <!-- Comentario Adicional -->
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label for="cuenta">DNI del asesor:</label>
+                                <div class="input-group">
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-money-check"></i></span>
+                                        </div>
+                                        <input type="text" name="dniAsesor" id="dniAsesor" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Comentario Adicional -->
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <label for="comentarioAdicional">Comentario Adicional:</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -392,6 +437,7 @@
                     </div>
                 </div>
             </div>
+
 
             <!-- Botón de Enviar Venta -->
             <div class="d-flex justify-content-end">
@@ -446,6 +492,7 @@
         *Tipo de Pago:* ${formData.get('tipoPago')}
         *Serie POS:* ${formData.get('seriePos')}
         *Asesor:* ${formData.get('asesor')}
+        *DNI del asesor:* ${formData.get('dniAsesor')}
         *Supervisor:* ${supervisor}
         *Comentario Adicional:* ${formData.get('comentarioAdicional')}
     `;
