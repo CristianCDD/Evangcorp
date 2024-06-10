@@ -105,10 +105,10 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                            <th>Usuario</th>
-                                            <th>Fecha</th>
-                                            <th>Hora</th>
-                                            <th>Ubicación</th>
+                                                <th>Usuario</th>
+                                                <th>Fecha</th>
+                                                <th>Hora</th>
+                                                <th>Ubicación</th>
                                             </tr>
                                         </thead>
                                         <tbody id="asistenciaBody">
@@ -127,98 +127,130 @@
     <script>
         let currentLatitude = null;
         let currentLongitude = null;
+        
+        // Variables for the button enable time range and disable duration
+        const enableStartHour = 2;
+        const enableStartMinute = 2;
+        const enableEndHour = 3;
+        const disableDurationMs = 10 * 1000; // 10 seconds in milliseconds
+
 
         document.addEventListener("DOMContentLoaded", function() {
-            const now = new Date();
-            const midnight = new Date();
-            midnight.setHours(24, 0, 0, 0);
-            const timeUntilMidnight = midnight - now;
+    const now = new Date();
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0);
+    const timeUntilMidnight = midnight - now;
 
+    setTimeout(function() {
+        localStorage.clear();
+        location.reload();
+    }, timeUntilMidnight);
+
+    const buttonDisabled = localStorage.getItem("entradaButtonDisabled");
+    if (buttonDisabled === "true") {
+        const enableTime = parseInt(localStorage.getItem("buttonDisabledUntil"), 10);
+        const remainingTime = enableTime - new Date().getTime();
+        if (remainingTime > 0) {
+            document.getElementById("entradaButton").disabled = true;
+            setTimer(Math.floor(remainingTime / 1000));
             setTimeout(function() {
-                localStorage.clear();
-                location.reload();
-            }, timeUntilMidnight);
+                document.getElementById("entradaButton").disabled = false;
+                localStorage.setItem("entradaButtonDisabled", "false");
+                document.getElementById("timer").style.display = 'none';
+            }, remainingTime);
+        } else {
+            document.getElementById("entradaButton").disabled = false;
+            localStorage.setItem("entradaButtonDisabled", "false");
+            document.getElementById("timer").style.display = 'none';
+        }
+    }
 
-            const buttonDisabled = localStorage.getItem("entradaButtonDisabled");
-            if (buttonDisabled === "true") {
-                document.getElementById("entradaButton").disabled = true;
-                const remainingTime = parseInt(localStorage.getItem("buttonDisabledUntil"), 10) - new Date().getTime();
-                if (remainingTime > 0) {
-                    setTimer(Math.floor(remainingTime / 1000));
-                    setTimeout(function() {
-                        document.getElementById("entradaButton").disabled = false;
-                        localStorage.setItem("entradaButtonDisabled", "false");
-                        document.getElementById("timer").style.display = 'none';
-                    }, remainingTime);
-                } else {
+    mostrarHistorialAsistencia(<?php echo $_SESSION["id"]; ?>); // Obtener y mostrar el historial de asistencia al cargar la página
+    updateButtonState(); // Initial call to set the correct state
+});
+
+function getLocation(id_asistencia) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            showPosition(position, id_asistencia);
+        });
+    } else {
+        document.getElementById("server-response").innerHTML = "Geolocalización no soportada por este navegador.";
+    }
+}
+
+function showPosition(position, id_asistencia) {
+    currentLatitude = position.coords.latitude;
+    currentLongitude = position.coords.longitude;
+
+    if (id_asistencia) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "ajax/asistencia.ajax.php", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send("action=updateCoordinates&id=" + id_asistencia + "&latitude=" + currentLatitude + "&longitude=" + currentLongitude);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log("Coordenadas actualizadas: " + xhr.responseText);
+                mostrarHistorialAsistenciaPorId(id_asistencia); // Mostrar el historial de asistencia para el ID específico
+
+                // Habilitar el botón después de 10 segundos
+                const enableTime = new Date().getTime() + disableDurationMs;
+                localStorage.setItem("buttonDisabledUntil", enableTime);
+
+                setTimer(disableDurationMs / 1000); // 10 seconds in seconds
+                setTimeout(function() {
                     document.getElementById("entradaButton").disabled = false;
                     localStorage.setItem("entradaButtonDisabled", "false");
                     document.getElementById("timer").style.display = 'none';
-                }
+                }, disableDurationMs); // Habilitar después de 10 segundos
             }
+        };
+    }
+}
 
-            mostrarHistorialAsistencia(<?php echo $_SESSION["id"]; ?>); // Obtener y mostrar el historial de asistencia al cargar la página
-        });
+function setTimer(seconds) {
+    const timerElement = document.getElementById("timer");
+    timerElement.style.display = 'block';
+    timerElement.textContent = formatTime(seconds);
 
-        function getLocation(id_asistencia) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    showPosition(position, id_asistencia);
-                });
-            } else {
-                document.getElementById("server-response").innerHTML = "Geolocalización no soportada por este navegador.";
-            }
+    const interval = setInterval(function() {
+        seconds--;
+        if (seconds <= 0) {
+            clearInterval(interval);
+            document.getElementById("entradaButton").disabled = false;
+            localStorage.setItem("entradaButtonDisabled", "false");
+            document.getElementById("timer").style.display = 'none';
         }
+        timerElement.textContent = formatTime(seconds);
+    }, 1000);
+}
 
-        function showPosition(position, id_asistencia) {
-            currentLatitude = position.coords.latitude;
-            currentLongitude = position.coords.longitude;
+function formatTime(seconds) {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = Math.floor(seconds % 60);
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
 
-            if (id_asistencia) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "ajax/asistencia.ajax.php", true);
-                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhr.send("action=updateCoordinates&id=" + id_asistencia + "&latitude=" + currentLatitude + "&longitude=" + currentLongitude);
+function updateButtonState() {
+    const now = new Date();
+    const entradaButton = document.getElementById("entradaButton");
+    const buttonDisabled = localStorage.getItem("entradaButtonDisabled");
 
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        console.log("Coordenadas actualizadas: " + xhr.responseText);
-                        mostrarHistorialAsistenciaPorId(id_asistencia); // Mostrar el historial de asistencia para el ID específico
-                        // Habilitar el botón después de 2 horas
-                        const enableTime = new Date().getTime() + (2 * 60 * 60 * 1000);
-                        localStorage.setItem("buttonDisabledUntil", enableTime);
-
-                        setTimer(2 * 60 * 60); // 2 hours in seconds
-                        setTimeout(function() {
-                            document.getElementById("entradaButton").disabled = false;
-                            localStorage.setItem("entradaButtonDisabled", "false");
-                            document.getElementById("timer").style.display = 'none';
-                        }, 2 * 60 * 60 * 1000); // Habilitar después de 2 horas
-                    }
-                };
-            }
+    if (buttonDisabled !== "true") {
+        entradaButton.disabled = false;
+        document.getElementById("timer").style.display = 'none';
+    } else {
+        const enableTime = parseInt(localStorage.getItem("buttonDisabledUntil"), 10);
+        const remainingTime = Math.floor((enableTime - now.getTime()) / 1000);
+        if (remainingTime > 0) {
+            setTimer(remainingTime);
         }
+    }
+}
 
-        function setTimer(seconds) {
-            const timerElement = document.getElementById("timer");
-            timerElement.style.display = 'block';
-            timerElement.textContent = formatTime(seconds);
 
-            const interval = setInterval(function() {
-                seconds--;
-                if (seconds <= 0) {
-                    clearInterval(interval);
-                }
-                timerElement.textContent = formatTime(seconds);
-            }, 1000);
-        }
-
-        function formatTime(seconds) {
-            const h = Math.floor(seconds / 3600);
-            const m = Math.floor((seconds % 3600) / 60);
-            const s = Math.floor(seconds % 60);
-            return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        }
 
         function mostrarHistorialAsistenciaPorId(id_asistencia) {
             var xhr = new XMLHttpRequest();
