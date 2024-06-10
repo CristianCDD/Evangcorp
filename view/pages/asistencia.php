@@ -172,6 +172,7 @@
     updateButtonState(); // Initial call to set the correct state
 });
 
+
 function getLocation(id_asistencia) {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -252,6 +253,43 @@ function updateButtonState() {
         }
     }
 }
+
+
+
+
+
+
+
+
+function mostrarHistorialAsistencia(id_usuario) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "ajax/asistencia.ajax.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("action=obtenerHistorialAsistencia&id_usuario=" + id_usuario);
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var historial = JSON.parse(xhr.responseText);
+            var tbody = document.getElementById("asistenciaBody");
+
+            historial.forEach((item, index) => {
+                var tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${item.nombre}</td>
+                    <td>${item.fecha}</td>
+                    <td>${item.hora}</td>
+                    <td><a class="btn btn-primary" href="${item.ubicacion}" target="_blank"><i class="fas fa-map-marker-alt"></i></a></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    };
+}
+
+
+
+
 
 
 
