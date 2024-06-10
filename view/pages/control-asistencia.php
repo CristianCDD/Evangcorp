@@ -56,8 +56,8 @@ global $asistencia;
                             <td><?php echo ($key + 1) ?></td>
                             <td><?php echo ($value["nombre"]) ?></td>
                             <td><?php echo ($value["apellidos"]) ?></td>
-                            <td><?php echo $value["fecha"] ?></td>
-                            <td><?php echo $value["hora"] ?></td>
+                            <td><?php echo fechaCastellano($value["fecha"]) ?></td>
+                            <td><?php echo formatDate($value["hora"]) ?></td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Acciones">
                                     <a href="<?php echo $value["ubicacion"] ?>" target="_blank" class="btn btn-success"><i class="fas fa-map-marker-alt"></i>  Ver ubicación</a>
