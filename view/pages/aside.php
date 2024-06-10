@@ -9,7 +9,7 @@
                 </li>
             <?php endif ?>
 
-            <?php if ($_SESSION["rol"] == "Administrador") : ?>
+            
                 <li class=" nav-item"><a href="asistencia"><i class="fa-solid fa-clipboard-user"></i><span class="menu-title" data-i18n="">Asistencia</span></a>
 
                     <ul class="menu-content">
@@ -17,18 +17,19 @@
                         <li><a class="menu-item" href="asistencia">Marcar Asistencia</a>
                         </li>
                         <br>
-                        <?php if ($_SESSION["rol"] == "Administrador") : ?>
+                        <?php if ($_SESSION["rol"] == "Administrador" || $_SESSION["rol"] == "Supervisor") : ?>
 
                             <li><a class="menu-item" href="control-asistencia">Ver asistencias</a>
                             </li>
+                            <br>
                         <?php endif ?>
-                        <br>
+                        
                     </ul>
 
 
                 </li>
 
-            <?php endif ?>
+       
 
 
             <!-- COMERCIOS -->
@@ -77,9 +78,10 @@
 
 
                     <li><a class="menu-item" href="ingresar-venta">Ingresar plantilla</a>
-                    </li><br>
+                    </li>
 
                     <?php if ($_SESSION["rol"] == "Administrador") : ?>
+                        <br>
                         <li><a class="menu-item" href="carta-ofertas">Carta ofertas</a>
                         </li><br>
                     <?php endif ?>
