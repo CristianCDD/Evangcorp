@@ -9,16 +9,20 @@ class AsistenciaAjax
     public $latitude;
     public $longitude;
 
-    public function ajaxMarcarEntrada()
-    {
+    public function ajaxMarcarEntrada() {
         if (isset($_SESSION["id"])) {
             $id_usuario = $_SESSION["id"];
             $id_asistencia = ControllerAsistencia::ctrMarcarEntrada($id_usuario);
-            echo $id_asistencia;
+            if ($id_asistencia === "limit_reached") {
+                echo "limit_reached";
+            } else {
+                echo $id_asistencia;
+            }
         } else {
             echo "Usuario no autenticado.";
         }
     }
+    
 
     public function ajaxObtenerHistorialAsistencia()
     {

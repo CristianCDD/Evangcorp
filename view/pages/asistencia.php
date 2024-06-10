@@ -114,7 +114,7 @@
                                         </thead>
 
                                         <tbody id="asistenciaBody">
-                                            
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -129,7 +129,7 @@
     <script>
         let currentLatitude = null;
         let currentLongitude = null;
-        
+
         // Variables for the button enable time range and disable duration
         const enableStartHour = 2;
         const enableStartMinute = 2;
@@ -139,120 +139,130 @@
 
 
         document.addEventListener("DOMContentLoaded", function() {
-    const now = new Date();
-    const midnight = new Date();
-    midnight.setHours(24, 0, 0, 0);
-    const timeUntilMidnight = midnight - now;
+            const now = new Date();
+            const midnight = new Date();
+            midnight.setHours(24, 0, 0, 0);
+            const timeUntilMidnight = midnight - now;
 
-    setTimeout(function() {
-        localStorage.clear();
-        location.reload();
-    }, timeUntilMidnight);
-
-    const buttonDisabled = localStorage.getItem("entradaButtonDisabled");
-    if (buttonDisabled === "true") {
-        const enableTime = parseInt(localStorage.getItem("buttonDisabledUntil"), 10);
-        const remainingTime = enableTime - new Date().getTime();
-        if (remainingTime > 0) {
-            document.getElementById("entradaButton").disabled = true;
-            setTimer(Math.floor(remainingTime / 1000));
             setTimeout(function() {
-                document.getElementById("entradaButton").disabled = false;
-                localStorage.setItem("entradaButtonDisabled", "false");
-                document.getElementById("timer").style.display = 'none';
-            }, remainingTime);
-        } else {
-            document.getElementById("entradaButton").disabled = false;
-            localStorage.setItem("entradaButtonDisabled", "false");
-            document.getElementById("timer").style.display = 'none';
-        }
-    }
+                localStorage.clear();
+                location.reload();
+            }, timeUntilMidnight);
 
-    mostrarHistorialAsistencia(<?php echo $_SESSION["id"]; ?>); // Obtener y mostrar el historial de asistencia al cargar la página
-    updateButtonState(); // Initial call to set the correct state
-});
+            const buttonDisabled = localStorage.getItem("entradaButtonDisabled");
+            const actionCount = parseInt(localStorage.getItem("actionCount")) || 0;
 
-
-function getLocation(id_asistencia) {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            showPosition(position, id_asistencia);
-        });
-    } else {
-        document.getElementById("server-response").innerHTML = "Geolocalización no soportada por este navegador.";
-    }
-}
-
-function showPosition(position, id_asistencia) {
-    currentLatitude = position.coords.latitude;
-    currentLongitude = position.coords.longitude;
-
-    if (id_asistencia) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "ajax/asistencia.ajax.php", true);
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.send("action=updateCoordinates&id=" + id_asistencia + "&latitude=" + currentLatitude + "&longitude=" + currentLongitude);
-
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log("Coordenadas actualizadas: " + xhr.responseText);
-                mostrarHistorialAsistenciaPorId(id_asistencia); // Mostrar el historial de asistencia para el ID específico
-
-                // Habilitar el botón después de 10 segundos
-                const enableTime = new Date().getTime() + disableDurationMs;
-                localStorage.setItem("buttonDisabledUntil", enableTime);
-
-                setTimer(disableDurationMs / 1000); // 10 seconds in seconds
-                setTimeout(function() {
+            if (buttonDisabled === "true") {
+                const enableTime = parseInt(localStorage.getItem("buttonDisabledUntil"), 10);
+                const remainingTime = enableTime - new Date().getTime();
+                if (remainingTime > 0) {
+                    document.getElementById("entradaButton").disabled = true;
+                    setTimer(Math.floor(remainingTime / 1000));
+                    setTimeout(function() {
+                        document.getElementById("entradaButton").disabled = false;
+                        localStorage.setItem("entradaButtonDisabled", "false");
+                        document.getElementById("timer").style.display = 'none';
+                    }, remainingTime);
+                } else {
                     document.getElementById("entradaButton").disabled = false;
                     localStorage.setItem("entradaButtonDisabled", "false");
                     document.getElementById("timer").style.display = 'none';
-                }, disableDurationMs); // Habilitar después de 10 segundos
+                }
             }
-        };
-    }
-}
 
-function setTimer(seconds) {
-    const timerElement = document.getElementById("timer");
-    timerElement.style.display = 'block';
-    timerElement.textContent = formatTime(seconds);
+            mostrarHistorialAsistencia(<?php echo $_SESSION["id"]; ?>); // Obtener y mostrar el historial de asistencia al cargar la página
+            updateButtonState(); // Initial call to set the correct state
+            checkActionCount(actionCount);
+        });
 
-    const interval = setInterval(function() {
-        seconds--;
-        if (seconds <= 0) {
-            clearInterval(interval);
-            document.getElementById("entradaButton").disabled = false;
-            localStorage.setItem("entradaButtonDisabled", "false");
-            document.getElementById("timer").style.display = 'none';
+        function checkActionCount(actionCount) {
+            if (actionCount >= 4) {
+                document.getElementById("entradaButton").disabled = true;
+                alert("Has alcanzado el límite de 4 acciones para el día.");
+            }
         }
-        timerElement.textContent = formatTime(seconds);
-    }, 1000);
-}
 
-function formatTime(seconds) {
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    const s = Math.floor(seconds % 60);
-    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-}
 
-function updateButtonState() {
-    const now = new Date();
-    const entradaButton = document.getElementById("entradaButton");
-    const buttonDisabled = localStorage.getItem("entradaButtonDisabled");
-
-    if (buttonDisabled !== "true") {
-        entradaButton.disabled = false;
-        document.getElementById("timer").style.display = 'none';
-    } else {
-        const enableTime = parseInt(localStorage.getItem("buttonDisabledUntil"), 10);
-        const remainingTime = Math.floor((enableTime - now.getTime()) / 1000);
-        if (remainingTime > 0) {
-            setTimer(remainingTime);
+        function getLocation(id_asistencia) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    showPosition(position, id_asistencia);
+                });
+            } else {
+                document.getElementById("server-response").innerHTML = "Geolocalización no soportada por este navegador.";
+            }
         }
-    }
-}
+
+        function showPosition(position, id_asistencia) {
+            currentLatitude = position.coords.latitude;
+            currentLongitude = position.coords.longitude;
+
+            if (id_asistencia) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "ajax/asistencia.ajax.php", true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send("action=updateCoordinates&id=" + id_asistencia + "&latitude=" + currentLatitude + "&longitude=" + currentLongitude);
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        console.log("Coordenadas actualizadas: " + xhr.responseText);
+                        mostrarHistorialAsistenciaPorId(id_asistencia); // Mostrar el historial de asistencia para el ID específico
+
+                        // Habilitar el botón después de 10 segundos
+                        const enableTime = new Date().getTime() + disableDurationMs;
+                        localStorage.setItem("buttonDisabledUntil", enableTime);
+
+                        setTimer(disableDurationMs / 1000); // 10 seconds in seconds
+                        setTimeout(function() {
+                            document.getElementById("entradaButton").disabled = false;
+                            localStorage.setItem("entradaButtonDisabled", "false");
+                            document.getElementById("timer").style.display = 'none';
+                        }, disableDurationMs); // Habilitar después de 10 segundos
+                    }
+                };
+            }
+        }
+
+        function setTimer(seconds) {
+            const timerElement = document.getElementById("timer");
+            timerElement.style.display = 'block';
+            timerElement.textContent = formatTime(seconds);
+
+            const interval = setInterval(function() {
+                seconds--;
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    document.getElementById("entradaButton").disabled = false;
+                    localStorage.setItem("entradaButtonDisabled", "false");
+                    document.getElementById("timer").style.display = 'none';
+                }
+                timerElement.textContent = formatTime(seconds);
+            }, 1000);
+        }
+
+        function formatTime(seconds) {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = Math.floor(seconds % 60);
+            return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function updateButtonState() {
+            const now = new Date();
+            const entradaButton = document.getElementById("entradaButton");
+            const buttonDisabled = localStorage.getItem("entradaButtonDisabled");
+
+            if (buttonDisabled !== "true") {
+                entradaButton.disabled = false;
+                document.getElementById("timer").style.display = 'none';
+            } else {
+                const enableTime = parseInt(localStorage.getItem("buttonDisabledUntil"), 10);
+                const remainingTime = Math.floor((enableTime - now.getTime()) / 1000);
+                if (remainingTime > 0) {
+                    setTimer(remainingTime);
+                }
+            }
+        }
 
 
 
@@ -261,31 +271,31 @@ function updateButtonState() {
 
 
 
-function mostrarHistorialAsistencia(id_usuario) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "ajax/asistencia.ajax.php", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send("action=obtenerHistorialAsistencia&id_usuario=" + id_usuario);
+        function mostrarHistorialAsistencia(id_usuario) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "ajax/asistencia.ajax.php", true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.send("action=obtenerHistorialAsistencia&id_usuario=" + id_usuario);
 
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var historial = JSON.parse(xhr.responseText);
-            var tbody = document.getElementById("asistenciaBody");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var historial = JSON.parse(xhr.responseText);
+                    var tbody = document.getElementById("asistenciaBody");
 
-            historial.forEach((item, index) => {
-                var tr = document.createElement("tr");
-                tr.innerHTML = `
+                    historial.forEach((item, index) => {
+                        var tr = document.createElement("tr");
+                        tr.innerHTML = `
                     <td>${index + 1}</td>
                     <td>${item.nombre}</td>
                     <td>${item.fecha}</td>
                     <td>${item.hora}</td>
                     <td><a class="btn btn-primary" href="${item.ubicacion}" target="_blank"><i class="fas fa-map-marker-alt"></i></a></td>
                 `;
-                tbody.appendChild(tr);
-            });
+                        tbody.appendChild(tr);
+                    });
+                }
+            };
         }
-    };
-}
 
 
 
@@ -343,6 +353,12 @@ function mostrarHistorialAsistencia(id_usuario) {
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
+                    if (xhr.responseText === "limit_reached") {
+                        alert("Has alcanzado el límite de 4 acciones para el día.");
+                        document.getElementById("entradaButton").disabled = true;
+                        return;
+                    }
+
                     console.log("Respuesta del servidor: " + xhr.responseText);
                     var id_asistencia = xhr.responseText;
                     document.getElementById("last_inserted_id").value = id_asistencia;
@@ -353,6 +369,12 @@ function mostrarHistorialAsistencia(id_usuario) {
 
                     // Llamar a getLocation para obtener y registrar la ubicación automáticamente
                     getLocation(id_asistencia); // Pasar el id_asistencia a getLocation
+
+                    // Incrementar el contador de acciones
+                    let actionCount = parseInt(localStorage.getItem("actionCount")) || 0;
+                    actionCount++;
+                    localStorage.setItem("actionCount", actionCount);
+                    checkActionCount(actionCount);
                 }
             };
         }

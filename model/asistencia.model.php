@@ -98,5 +98,18 @@ class ModelAsistencia
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    public static function mdlCountDailyEntries($id_usuario, $fecha) {
+        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) AS count FROM detalle_asistencia WHERE id_usuario = :id_usuario AND fecha = :fecha");
+        $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+        $stmt->bindParam(":fecha", $fecha, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetch()["count"];
+    }
+    
+
+
+
+
 }
 ?>

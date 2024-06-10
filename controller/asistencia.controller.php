@@ -22,6 +22,11 @@ class ControllerAsistencia
 
         // Verificar si ya existe una entrada para el usuario y la fecha
         $id_asistencia = ModelAsistencia::mdlObtenerIdAsistencia("asistencia", $id_usuario, $fecha);
+        $entryCount = ModelAsistencia::mdlCountDailyEntries($id_usuario, $fecha);
+
+        if ($entryCount >= 4) {
+            return "limit_reached";
+        }
 
         if (!$id_asistencia) {
             // Si no existe, crear una nueva entrada
@@ -74,6 +79,4 @@ class ControllerAsistencia
     {
         return ModelAsistencia::mdlMostrarHistorialAsistencia($id_usuario);
     }
-    
 }
-?>
