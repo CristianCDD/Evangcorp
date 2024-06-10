@@ -82,5 +82,16 @@ class ModelAsistencia
 
         return $stmt->fetchAll();
     }
+
+    public static function mdlMostrarHistorialAsistenciaPorId($id_asistencia)
+{
+    $stmt = Conexion::conectar()->prepare("SELECT asistencia.id, asistencia.id_usuario, asistencia.fecha, detalle_asistencia.hora, detalle_asistencia.ubicacion, usuarios.nombre FROM asistencia INNER JOIN detalle_asistencia ON asistencia.id = detalle_asistencia.id_asistencia INNER JOIN usuarios ON asistencia.id_usuario = usuarios.id_usuario WHERE asistencia.id = :id_asistencia");
+    $stmt->bindParam(":id_asistencia", $id_asistencia, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+
+    
+
 }
 ?>
