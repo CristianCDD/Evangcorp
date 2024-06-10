@@ -191,8 +191,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    ${historial.map(item => `
+                                    ${historial.map((item, index) => `
                                         <tr>
+                                            <td>${index + 1}</td>
                                             <td>${item.id}</td>
                                             <td>${item.nombre}</td>
                                             <td>${item.fecha}</td>
