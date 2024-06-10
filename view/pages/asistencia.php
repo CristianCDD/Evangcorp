@@ -113,20 +113,8 @@
                                             </tr>
                                         </thead>
 
-                                        <tbody id="asistenciaBody1">
-                                            <?php
-                                            require_once 'controller/asistencia.controller.php';
-                                            $asistencias = ControllerAsistencia::ctrMostrarHistorialAsistencia();
-                                            foreach ($asistencias as $key => $value) : ?>
-                                                <tr>
-                                                    <td><?php echo $key + 1; ?></td>
-                                                    <td><?php echo $value['nombre'] . ' ' . $value['apellidos']; ?></td>
-                                                    <td><?php echo $value['fecha']; ?></td>
-                                                    <td><?php echo $value['hora']; ?></td>
-                                                    <td><a class="btn btn-primary" href="<?php echo $value['ubicacion']; ?>" target="_blank"><i class="fas fa-map-marker-alt"></i></a></td>
-
-                                                </tr>
-                                            <?php endforeach ?>
+                                        <tbody id="asistenciaBody">
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -146,7 +134,8 @@
         const enableStartHour = 2;
         const enableStartMinute = 2;
         const enableEndHour = 3;
-        const disableDurationMs = 10 * 1000; // 10 seconds in milliseconds
+        const disableDurationMs = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+
 
 
         document.addEventListener("DOMContentLoaded", function() {
