@@ -76,7 +76,7 @@ class ModelAsistencia
 
     static public function mdlMostrarInner()
     {
-        $stmt = Conexion::conectar()->prepare("SELECT usuarios.id_usuario, usuarios.nombre, usuarios.apellidos, asistencia.fecha FROM asistencia INNER JOIN usuarios ON asistencia.id_usuario = usuarios.id_usuario");
+        $stmt = Conexion::conectar()->prepare("SELECT asistencia.fecha, detalle_asistencia.hora, detalle_asistencia.ubicacion, usuarios.nombre, usuarios.apellidos FROM asistencia INNER JOIN detalle_asistencia ON asistencia.id = detalle_asistencia.id_asistencia INNER JOIN usuarios ON asistencia.id_usuario = usuarios.id_usuario");
 
         $stmt->execute();
 

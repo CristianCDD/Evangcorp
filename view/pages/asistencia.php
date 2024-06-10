@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
 
         .custom-header {
             font-size: 1.5rem;
@@ -41,6 +41,12 @@
         .container-xl {
             max-width: 100%;
         }
+
+        .timer {
+            font-size: 1.5rem;
+            color: #ff0000;
+            margin-top: 1rem;
+        }
     </style>
 </head>
 
@@ -71,6 +77,7 @@
                                     <button id="entradaButton" class="btn btn-success mb-2 custom-button" onclick="marcarEntrada()">
                                         <i class="fas fa-clock"></i><span style="margin-left: 5px;">Enviar corte</span>
                                     </button>
+                                    <div id="timer" class="timer" style="display: none;">7200</div>
                                 </div>
                             </div>
                             <input type="hidden" id="last_inserted_id" value="">
@@ -132,6 +139,24 @@
                 location.reload();
             }, timeUntilMidnight);
 
+            const buttonDisabled = localStorage.getItem("entradaButtonDisabled");
+            if (buttonDisabled === "true") {
+                document.getElementById("entradaButton").disabled = true;
+                const remainingTime = parseInt(localStorage.getItem("buttonDisabledUntil"), 10) - new Date().getTime();
+                if (remainingTime > 0) {
+                    setTimer(Math.floor(remainingTime / 1000));
+                    setTimeout(function() {
+                        document.getElementById("entradaButton").disabled = false;
+                        localStorage.setItem("entradaButtonDisabled", "false");
+                        document.getElementById("timer").style.display = 'none';
+                    }, remainingTime);
+                } else {
+                    document.getElementById("entradaButton").disabled = false;
+                    localStorage.setItem("entradaButtonDisabled", "false");
+                    document.getElementById("timer").style.display = 'none';
+                }
+            }
+
             mostrarHistorialAsistencia(<?php echo $_SESSION["id"]; ?>); // Obtener y mostrar el historial de asistencia al cargar la página
         });
 
@@ -159,14 +184,40 @@
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         console.log("Coordenadas actualizadas: " + xhr.responseText);
                         mostrarHistorialAsistenciaPorId(id_asistencia); // Mostrar el historial de asistencia para el ID específico
-                        // Habilitar el botón después de 10 segundos
+                        // Habilitar el botón después de 2 horas
+                        const enableTime = new Date().getTime() + (2 * 60 * 60 * 1000);
+                        localStorage.setItem("buttonDisabledUntil", enableTime);
+
+                        setTimer(2 * 60 * 60); // 2 hours in seconds
                         setTimeout(function() {
                             document.getElementById("entradaButton").disabled = false;
                             localStorage.setItem("entradaButtonDisabled", "false");
-                        }, 10000); // Habilitar después de 10 segundos
+                            document.getElementById("timer").style.display = 'none';
+                        }, 2 * 60 * 60 * 1000); // Habilitar después de 2 horas
                     }
                 };
             }
+        }
+
+        function setTimer(seconds) {
+            const timerElement = document.getElementById("timer");
+            timerElement.style.display = 'block';
+            timerElement.textContent = formatTime(seconds);
+
+            const interval = setInterval(function() {
+                seconds--;
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                }
+                timerElement.textContent = formatTime(seconds);
+            }, 1000);
+        }
+
+        function formatTime(seconds) {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = Math.floor(seconds % 60);
+            return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
         }
 
         function mostrarHistorialAsistenciaPorId(id_asistencia) {

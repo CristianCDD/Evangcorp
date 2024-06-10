@@ -26,7 +26,8 @@ $(document).ready(function () {
         },
         "responsive": true,
         "lengthMenu": [5, 15, 20, 50, 100], // Opciones de cantidad de registros por página
-        "pageLength": 20 // Establecer por defecto 20 registros por página
+        "pageLength": 20, // Establecer por defecto 20 registros por página
+        "dom": 'lrtip'
     });
 });
 
