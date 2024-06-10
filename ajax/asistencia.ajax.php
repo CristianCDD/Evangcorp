@@ -20,6 +20,17 @@ class AsistenciaAjax
         }
     }
 
+    public function ajaxObtenerHistorialAsistencia()
+    {
+        if (isset($_POST["id_usuario"])) {
+            $id_usuario = $_POST["id_usuario"];
+            $respuesta = ControllerAsistencia::ctrMostrarHistorialAsistencia($id_usuario);
+            echo json_encode($respuesta);
+        } else {
+            echo "ID de usuario no proporcionado.";
+        }
+    }
+
     public function ajaxUpdateCoordinates()
     {
         if (isset($this->id) && isset($this->latitude) && isset($this->longitude)) {
@@ -60,6 +71,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             case 'marcarSalida':
                 echo "Funcionalidad deshabilitada.";
                 break;
+            
+                case 'obtenerHistorialAsistencia':
+                    $asistenciaAjax->ajaxObtenerHistorialAsistencia();
+                    break;
 
             default:
                 echo "Acción no válida.";
