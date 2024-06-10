@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../model/asistencia.model.php';
+require_once __DIR__  . '/../model/asistencia.model.php';
 
 class ControllerAsistencia
 {
@@ -64,5 +64,13 @@ class ControllerAsistencia
     {
         return "Funcionalidad deshabilitada.";
     }
+
+    public static function ctrMostrarHistorialAsistenciaPorId($id_asistencia)
+    {
+        return ModelAsistencia::mdlMostrarHistorialAsistenciaPorId($id_asistencia);
+    }
+    
+    
+
 }
 ?>

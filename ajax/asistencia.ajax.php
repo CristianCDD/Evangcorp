@@ -64,9 +64,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             default:
                 echo "Acción no válida.";
                 break;
+
+                case 'obtenerHistorialAsistenciaPorId':
+                    if (isset($_POST["id_asistencia"])) {
+                        $id_asistencia = $_POST["id_asistencia"];
+                        $respuesta = ControllerAsistencia::ctrMostrarHistorialAsistenciaPorId($id_asistencia);
+                        echo json_encode($respuesta);
+                    } else {
+                        echo "ID de asistencia no proporcionado.";
+                    }
+                    break;
+                
         }
     } else {
         echo "Acción no especificada.";
     }
 }
-?>
