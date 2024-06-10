@@ -69,8 +69,10 @@ class ControllerAsistencia
     {
         return ModelAsistencia::mdlMostrarHistorialAsistenciaPorId($id_asistencia);
     }
-    
-    
 
+    public static function ctrMostrarHistorialAsistencia()
+    {
+        return ModelAsistencia::mdlMostrarInner();
+    }
 }
 ?>

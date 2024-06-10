@@ -50,6 +50,7 @@
     </style>
 </head>
 
+
 <body>
 
     <div class="content-header row mt-4">
@@ -105,14 +106,27 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                            <th>Usuario</th>
-                                            <th>Fecha</th>
-                                            <th>Hora</th>
-                                            <th>Ubicación</th>
+                                                <th>Usuario</th>
+                                                <th>Fecha</th>
+                                                <th>Hora</th>
+                                                <th>Ubicación</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="asistenciaBody">
-                                            <!-- Dynamic rows will be inserted here -->
+
+                                        <tbody id="asistenciaBody1">
+                                            <?php
+                                            require_once 'controller/asistencia.controller.php';
+                                            $asistencias = ControllerAsistencia::ctrMostrarHistorialAsistencia();
+                                            foreach ($asistencias as $key => $value) : ?>
+                                                <tr>
+                                                    <td><?php echo $key + 1; ?></td>
+                                                    <td><?php echo $value['nombre'] . ' ' . $value['apellidos']; ?></td>
+                                                    <td><?php echo $value['fecha']; ?></td>
+                                                    <td><?php echo $value['hora']; ?></td>
+                                                    <td><a class="btn btn-primary" href="<?php echo $value['ubicacion']; ?>" target="_blank"><i class="fas fa-map-marker-alt"></i></a></td>
+
+                                                </tr>
+                                            <?php endforeach ?>
                                         </tbody>
                                     </table>
                                 </div>
