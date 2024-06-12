@@ -51,21 +51,22 @@ global $asistencia;
                 </thead>
                 
                 <tbody id="tableBody">
-                    <?php foreach ($asistencia as $key => $value) : ?>
-                        <tr>
-                            <td><?php echo ($key + 1) ?></td>
-                            <td><?php echo ($value["nombre"]) ?></td>
-                            <td><?php echo ($value["apellidos"]) ?></td>
-                            <td><?php echo fechaCastellano($value["fecha"]) ?></td>
-                            <td><?php echo formatDate($value["hora"]) ?></td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Acciones">
-                                    <a href="<?php echo $value["ubicacion"] ?>" target="_blank" class="btn btn-success"><i class="fas fa-map-marker-alt"></i>  Ver ubicación</a>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach ?>
-                </tbody>
+    <?php foreach ($asistencia as $key => $value) : ?>
+        <tr>
+            <td><?php echo ($key + 1) ?></td>
+            <td><?php echo ($value["nombre"]) ?></td>
+            <td><?php echo ($value["apellidos"]) ?></td>
+            <td><?php echo fechaCastellano($value["fecha"]) ?></td>
+            <td><?php echo formatDate($value["hora"]) ?></td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Acciones">
+                    <a href="<?php echo $value["ubicacion"] ?>" target="_blank" class="btn btn-success"><i class="fas fa-map-marker-alt"></i> Ver ubicación</a>
+                </div>
+            </td>
+        </tr>
+    <?php endforeach ?>
+</tbody>
+
             </table>
         </div>
     </div>
@@ -73,7 +74,7 @@ global $asistencia;
 
 <script>
 function filterTable() {
-    var inputName, inputDate, filterName, filterDate, table, tr, tdName, tdLastName, tdDate, i, txtValueName, txtValueDate;
+    var inputName, inputDate, filterName, filterDate, table, tr, tdName, tdLastName, tdDate, hiddenDate, i, txtValueName, txtValueDate;
     inputName = document.getElementById("filterName");
     inputDate = document.getElementById("filterDate");
     filterName = inputName.value.toUpperCase();
@@ -86,9 +87,10 @@ function filterTable() {
         tdName = tr[i].getElementsByTagName("td")[1];
         tdLastName = tr[i].getElementsByTagName("td")[2];
         tdDate = tr[i].getElementsByTagName("td")[3];
-        if (tdName && tdLastName && tdDate) {
+        hiddenDate = tdDate.querySelector('.fecha-original'); // Get hidden input with the original date
+        if (tdName && tdLastName && hiddenDate) {
             txtValueName = (tdName.textContent || tdName.innerText) + " " + (tdLastName.textContent || tdLastName.innerText);
-            txtValueDate = tdDate.textContent || tdDate.innerText;
+            txtValueDate = hiddenDate.value; // Use the value from the hidden input for comparison
             if (txtValueName.toUpperCase().indexOf(filterName) > -1 && (filterDate === "" || txtValueDate === filterDate)) {
                 tr[i].style.display = "";
             }
@@ -101,6 +103,7 @@ function resetFilters() {
     document.getElementById("filterDate").value = "";
     filterTable();
 }
+
 </script>
 
 <style>
