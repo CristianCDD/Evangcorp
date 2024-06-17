@@ -244,20 +244,21 @@ class ControllerUser
         
                             </script>"; */
 
-                            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            Cuenta desactivada. 
-                            <a href="#" class="text-dark saberMas" onclick="saberMas();">Saber Más</a>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
+                            echo '<div class="alert alert-danger alert-dismissible fade show custom-alert" role="alert">
+    Cuenta desactivada. 
+    <a href="#" class="text-dark saberMas" onclick="saberMas();">Saber Más</a>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
                         ';
 
                             return;
                         }
                     } else {
 
-                       /*  echo "<script>
+                        /*  echo "<script>
         
                         Swal.fire({
                             icon: 'error',

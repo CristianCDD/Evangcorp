@@ -118,6 +118,7 @@ if (isset($_SESSION["id"])) {
                     $_GET["route"] == "usuarios" ||
                     $_GET["route"] == "inicio" ||
                     $_GET["route"] == "salir" ||
+                    $_GET["route"] == "nuevoLogin" ||
                     $_GET["route"] == "perfil" ||
                     $_GET["route"] == "insertar-prospecciones" ||
                     $_GET["route"] == "insertar-comercios" ||
@@ -145,7 +146,7 @@ if (isset($_SESSION["id"])) {
 
     <?php else : ?>
 
-        <?php include 'pages/login.php' ?>
+        <?php include 'pages/nuevoLogin.php' ?>
 
     <?php endif ?>
 
