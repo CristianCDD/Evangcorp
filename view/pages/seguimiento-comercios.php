@@ -139,6 +139,42 @@
 
 <?php endif ?>
 
+<!--=====================================================
+=       RELACION - ROCIO JACKLYN BARRETO CURIBANCO     =
+======================================================-->
+
+<?php if ($_SESSION["nombre"] == "ROCIO JACKLYN") : ?>
+
+    <div class="bg-dark py-1"><h6 class="content-header-title mb-0 d-inline-block ml-2 text-white">Ventas Lima</h6></div>
+
+    <div class="embed-responsive embed-responsive-16by9">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold text-secondary">Ventas ROCIO JACKLYN</h5>
+        </div>
+        <iframe class="embed-responsive-item" src="https://lookerstudio.google.com/embed/reporting/59cad249-98bc-4190-8359-e00f73c5a883/page/K7mkD" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>
+
+
+<?php endif ?>
+
+<!--=====================================================
+=       RELACION - JENNIFER ROBLES BARRANTES     =
+======================================================-->
+
+<?php if ($_SESSION["nombre"] == "JENNIFER") : ?>
+
+    <div class="bg-dark py-1"><h6 class="content-header-title mb-0 d-inline-block ml-2 text-white">Ventas Lima</h6></div>
+
+    <div class="embed-responsive embed-responsive-16by9">
+        <div class="card-header py-3">
+            <h5 class="m-0 font-weight-bold text-secondary">Ventas JENNIFER ROBLES BARRANTES</h5>
+        </div>
+        <iframe class="embed-responsive-item" src="https://lookerstudio.google.com/embed/reporting/a330df92-7427-4a15-91ba-3e92fc9e402c/page/K7mkD" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>
+
+
+<?php endif ?>
+
 <br><br>
 
 

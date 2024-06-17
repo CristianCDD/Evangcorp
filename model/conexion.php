@@ -2,10 +2,10 @@
 
 class Conexion
 {
-    private static $host = "localhost";
-    private static $db = "evangcorpsistem";
-    private static $user = "root";
-    private static $pass = "";
+    private static $host = "68.66.226.89";
+    private static $db = "evang_evangcorpsistem";
+    private static $user = "evang_sistemaEvang";
+    private static $pass = "4gUkuLC9DmWz";
 
     static public function conectar()
     {

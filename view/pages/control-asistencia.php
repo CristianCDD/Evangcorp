@@ -4,13 +4,13 @@ global $asistencia;
 
 <div class="content-header row mt-4">
     <div class="content-header-left col-md-8 col-12 mb-5 breadcrumb-new">
-        <h3 class="content-header-title mb-0 d-inline-block">VALIDACIONES DE JORNADAS LABORADAS</h3>
+        <h3 class="content-header-title mb-0 d-inline-block">VALIDACIONES Y CARTAS</h3>
         <div class="row breadcrumbs-top d-inline-block">
             <div class="breadcrumb-wrapper col-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="inicio">ESCRITORIO</a>
                     </li>
-                    <li class="breadcrumb-item active">CONTROL ASISTENCIA
+                    <li class="breadcrumb-item active">carta ofertas
                     </li>
                 </ol>
             </div>
@@ -18,6 +18,9 @@ global $asistencia;
     </div>
 </div>
 
+<button type="button" class="btn btn-primary p-2 mb-4 btnAgregarUsuarios" onclick="window.location.href='registrar-validaciones'" data-bs-toggle="modal" data-bs-target="#modalAgregarUsuario">
+    Ingresar carta y vaucher
+</button>
 
 <div class="card">
     <div class="card-content p-4">
@@ -48,21 +51,22 @@ global $asistencia;
                 </thead>
                 
                 <tbody id="tableBody">
-                    <?php foreach ($asistencia as $key => $value) : ?>
-                        <tr>
-                            <td><?php echo ($key + 1) ?></td>
-                            <td><?php echo ($value["nombre"]) ?></td>
-                            <td><?php echo ($value["apellidos"]) ?></td>
-                            <td><?php echo fechaCastellano($value["fecha"]) ?></td>
-                            <td><?php echo formatDate($value["hora"]) ?></td>
-                            <td>
-                                <div class="btn-group" role="group" aria-label="Acciones">
-                                    <a href="<?php echo $value["ubicacion"] ?>" target="_blank" class="btn btn-success"><i class="fas fa-map-marker-alt"></i>  Ver ubicación</a>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach ?>
-                </tbody>
+    <?php foreach ($asistencia as $key => $value) : ?>
+        <tr>
+            <td><?php echo ($key + 1) ?></td>
+            <td><?php echo ($value["nombre"]) ?></td>
+            <td><?php echo ($value["apellidos"]) ?></td>
+            <td><?php echo fechaCastellano($value["fecha"]) ?></td>
+            <td><?php echo formatDate($value["hora"]) ?></td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Acciones">
+                    <a href="<?php echo $value["ubicacion"] ?>" target="_blank" class="btn btn-success"><i class="fas fa-map-marker-alt"></i> Ver ubicación</a>
+                </div>
+            </td>
+        </tr>
+    <?php endforeach ?>
+</tbody>
+
             </table>
         </div>
     </div>
@@ -70,7 +74,7 @@ global $asistencia;
 
 <script>
 function filterTable() {
-    var inputName, inputDate, filterName, filterDate, table, tr, tdName, tdLastName, tdDate, i, txtValueName, txtValueDate;
+    var inputName, inputDate, filterName, filterDate, table, tr, tdName, tdLastName, tdDate, hiddenDate, i, txtValueName, txtValueDate;
     inputName = document.getElementById("filterName");
     inputDate = document.getElementById("filterDate");
     filterName = inputName.value.toUpperCase();
@@ -83,9 +87,10 @@ function filterTable() {
         tdName = tr[i].getElementsByTagName("td")[1];
         tdLastName = tr[i].getElementsByTagName("td")[2];
         tdDate = tr[i].getElementsByTagName("td")[3];
-        if (tdName && tdLastName && tdDate) {
+        hiddenDate = tdDate.querySelector('.fecha-original'); // Get hidden input with the original date
+        if (tdName && tdLastName && hiddenDate) {
             txtValueName = (tdName.textContent || tdName.innerText) + " " + (tdLastName.textContent || tdLastName.innerText);
-            txtValueDate = tdDate.textContent || tdDate.innerText;
+            txtValueDate = hiddenDate.value; // Use the value from the hidden input for comparison
             if (txtValueName.toUpperCase().indexOf(filterName) > -1 && (filterDate === "" || txtValueDate === filterDate)) {
                 tr[i].style.display = "";
             }
@@ -98,6 +103,7 @@ function resetFilters() {
     document.getElementById("filterDate").value = "";
     filterTable();
 }
+
 </script>
 
 <style>

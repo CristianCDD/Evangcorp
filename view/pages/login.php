@@ -1,88 +1,73 @@
-<div class="container">
+<!DOCTYPE html>
+<html lang="en">
 
-    <style>
-        /* Anula el outline en los inputs de Bootstrap */
-        .form-control:focus {
-            border-color: #ced4da;
-            /* Color de borde cuando el input está enfocado */
-            box-shadow: none;
-            /* Elimina la sombra al enfocar el input */
-        }
+<head>
+    <title>Login V8</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <link rel="stylesheet" type="text/css" href="view/assets/css/login.css" />
+</head>
 
-        @media (min-width: 768px) {
+<body>
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="contenedor-login">
+                <?php
 
-            .container {
-                padding: 80px;
+                $login = new ControllerUser();
+                $login->ctrLogin();
 
-            }
+                ?>
+                <div class="wrap-login100">
 
-        }
-    </style>
+                    <form class="login100-form validate-form p-l-55 p-r-55 p-t-178" method="post">
+                        <span class="login100-form-title">
 
-    <div class="row">
+                            <div class="content-credi">
+                                <img src="view/img/logoEvangW.png" alt="Logo" />
 
-        <div class="col-md-5 col-sm-12 mx-auto">
-
-            <div class="card pt-4" style="border-radius: 10px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);">
-
-                <div class="card-body m-3">
-
-                    <div class="text-center mb-5">
-                        <img src="view/img/logoEvang.jpeg" height="100" class="mb-4" style="border-radius: 50%;">
-                        <h3 style="color: #2C3E50; font-family: 'Arial', sans-serif;">Sistema EVANG CORP</h3>
-                        <p style="color: #7F8C8D;">Por favor inicia sesión para continuar.</p>
-                    </div>
-
-                    <form method="post">
-                        <div class="form-group has-icon-left">
-                            <label for="user" style="color: #2C3E50;">Nombre de usuario</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" style="background-color: #170b89; color: white;"><i class="fa fa-envelope"></i></span>
-                                </div>
-                                <input type="text" name="ingUser" class="form-control" id="user" placeholder="Ingrese su usuario" required style="border-color: #170b89;">
+                                <img src="view/img/credicorpEvang.png" class="credi" alt="Logo" />
                             </div>
 
-
+                        </span>
+                        <span class="text-center">
+                            <h3 class="titulo-login" style="margin: 40px 0 15px 0;">Sistema Corporativo</h3>
+                        </span>
+                        <p class="text-center" style="margin: 10px 0 50px 0;">
+                            Por favor inicia sesión para continuar.
+                        </p>
+                        <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter username">
+                            <input class="input100" type="text" name="ingUser" id="user" placeholder="Usuario" required />
+                            <span class="focus-input100"></span>
+                        </div>
+                        <div class="wrap-input100 validate-input" data-validate="Please enter password">
+                            <input class="input100" type="password" name="ingPassword" id="password" placeholder="Contraseña" required />
+                            <span class="focus-input100"></span>
                         </div>
 
-
-                        <div class="form-group has-icon-left mb-4">
-                            <label for="password" style="color: #2C3E50;">Contraseña</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" style="background-color: #E74C3C; color: white;"><i class="fa fa-lock"></i></span>
-                                </div>
-                                <input type="password" name="ingPassword" class="form-control" id="password" required style="border-color: #E74C3C; border-right: none;">
-                                <div class="input-group-append">
-
-                                    <span class="input-group-text" style="cursor: pointer; background-color: transparent; border-color: #E74C3C;" onclick="togglePassword()">
-                                        <i class="fas fa-eye" id="eye-icon"></i>
-                                    </span>
-                                </div>
-                            </div>
+                        <div class="text-right p-t-13 p-b-23">
+                            <span class="txt1"> Olvidaste </span>
+                            <a href="https://wa.me/51941795983" class="txt2"> Usuario / Contraseña? </a>
                         </div>
-
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-warning btn-block btn-login" style="background-color: #F39C12; border-color: #F39C12;">Ingresar</button>
+                        <div class="container-login100-form-btn">
+                            <button class="login100-form-btn">Iniciar sesion</button>
                         </div>
-
+                        <div class="flex-col-c p-t-30 p-b-30"></div>
                     </form>
 
-                    <?php
 
-                    $login = new ControllerUser();
-                    $login->ctrLogin();
-
-                    ?>
 
                 </div>
-
             </div>
 
         </div>
 
     </div>
 
-</div>
+
+
+    <script src="view/assets/js/main.js"></script>
+</body>
+
+</html>

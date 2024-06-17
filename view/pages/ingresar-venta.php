@@ -11,7 +11,6 @@
     </div>
 
     <div class="card-body">
-
         <form id="ventaForm">
             <!-- Datos Personales -->
             <div class="card mb-4">
@@ -95,10 +94,10 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <!-- Razón Social -->
+                        <!-- RUC -->
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="razonSocial">RUC:</label>
+                                <label for="ruc">RUC:</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-briefcase"></i></span>
@@ -231,7 +230,21 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-university"></i></span>
                                     </div>
-                                    <input type="text" name="banco" id="banco" class="form-control" required>
+                                    <select name="banco" id="banco" class="form-control" required onchange="checkBanco()">
+                                        <option value="" selected disabled>Seleccione un banco</option>
+                                        <option value="BCP">BCP</option>
+                                        <option value="INTERBANK">INTERBANK</option>
+                                        <option value="BBVA">BBVA</option>
+                                        <option value="SCOTIABANK">SCOTIABANK</option>
+                                        <option value="BANCO LA NACION">BANCO LA NACION</option>
+                                        <option value="OTRO">OTRO</option>
+                                    </select>
+                                </div>
+                                <div class="input-group mt-2" id="otroBancoContainer" style="display: none;">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-university"></i></span>
+                                    </div>
+                                    <input type="text" name="otroBanco" id="otroBanco" class="form-control" placeholder="Ingrese otro banco">
                                 </div>
                             </div>
                         </div>
@@ -244,7 +257,7 @@
                                         <span class="input-group-text"><i class="fas fa-money-check"></i></span>
                                     </div>
                                     <select name="cuenta" id="cuenta" class="form-control" required>
-                                        <option value="">Seleccione una opción</option>
+                                        <option value="" selected disabled>Seleccione una opción</option>
                                         <option value="corriente">Corriente</option>
                                         <option value="ahorro">Ahorro</option>
                                     </select>
@@ -373,7 +386,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
                                     </div>
-                                    <select name="asesor" id="asesor" class="form-control" required onchange="disableDefaultOption()">
+                                    <select name="asesor" id="asesor" class="form-control" required>
                                         <option value="" selected>Seleccione un asesor</option>
                                         <?php
                                         $item = null;
@@ -407,18 +420,15 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Comentario Adicional -->
+                        <!-- DNI del asesor -->
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="cuenta">DNI del asesor:</label>
+                                <label for="dniAsesor">DNI del asesor:</label>
                                 <div class="input-group">
-
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-money-check"></i></span>
-                                        </div>
-                                        <input type="text" name="dniAsesor" id="dniAsesor" class="form-control" required>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
                                     </div>
+                                    <input type="text" name="dniAsesor" id="dniAsesor" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -438,7 +448,6 @@
                 </div>
             </div>
 
-
             <!-- Botón de Enviar Venta -->
             <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-success" onclick="enviarVenta()">
@@ -446,15 +455,22 @@
                 </button>
             </div>
         </form>
-
     </div>
 </div>
 
-
-
-
-
 <script>
+    function checkBanco() {
+        const bancoSelect = document.getElementById('banco');
+        const otroBancoContainer = document.getElementById('otroBancoContainer');
+        if (bancoSelect.value === 'OTRO') {
+            otroBancoContainer.style.display = 'flex';
+            document.getElementById('otroBanco').setAttribute('required', 'required');
+        } else {
+            otroBancoContainer.style.display = 'none';
+            document.getElementById('otroBanco').removeAttribute('required');
+        }
+    }
+
     function enviarVenta() {
         const supervisor = document.getElementById('supervisor').value;
         const form = document.getElementById('ventaForm');
@@ -466,6 +482,9 @@
         } else if (supervisor === 'Paul Alvites') {
             supervisorPhone = '51950005046'; // Replace with actual phone number
         }
+
+        const asesorElement = document.getElementById('asesor');
+        const asesorName = asesorElement.options[asesorElement.selectedIndex].text;
 
         const mensaje = `
         *Nombre Rep Leg:* ${formData.get('nombreRepLeg')}
@@ -482,7 +501,7 @@
         *Provincia:* ${formData.get('provincia')}
         *Distrito:* ${formData.get('distrito')}
         *Rubro:* ${formData.get('rubro')}
-        *Banco:* ${formData.get('banco')}
+        *Banco:* ${formData.get('banco') === 'OTRO' ? formData.get('otroBanco') : formData.get('banco')}
         *Cuenta:* ${formData.get('cuenta')}
         *N° de Cuenta:* ${formData.get('nroCuenta')}
         *CCI de Cuenta:* ${formData.get('cciCuenta')}
@@ -491,7 +510,7 @@
         *Precio:* ${formData.get('precio')}
         *Tipo de Pago:* ${formData.get('tipoPago')}
         *Serie POS:* ${formData.get('seriePos')}
-        *Asesor:* ${formData.get('asesor')}
+        *Asesor:* ${asesorName}
         *DNI del asesor:* ${formData.get('dniAsesor')}
         *Supervisor:* ${supervisor}
         *Comentario Adicional:* ${formData.get('comentarioAdicional')}

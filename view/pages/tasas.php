@@ -122,7 +122,7 @@
 =           RELACION - JENNIFER ROBLES BARRANTES       =
 ========================================================-->
 
-<?php if ($_SESSION["nombre"] == "ROCIO JACKLYN") : ?>
+<?php if ($_SESSION["nombre"] == "JENNIFER") : ?>
 
     <div class="bg-dark py-1"><h6 class="content-header-title mb-0 d-inline-block ml-2 text-white">Ventas Lima</h6></div>
 
